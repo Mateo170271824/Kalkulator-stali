@@ -17,16 +17,18 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    // Podpis aplikacji kluczem z sekretów GitHuba (ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD,
-    // ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD). Bez nich APK jest podpisane kluczem testowym (debug).
+    // Podpis stałym kluczem z sekretów GitHuba (ANDROID_KEYSTORE_BASE64 + ANDROID_KEYSTORE_PASSWORD),
+    // dzięki czemu nowe wersje instalują się na starych bez utraty danych.
+    // Bez klucza (np. kompilacja próbna) używany jest klucz testowy.
     def ksFile = System.getenv("ANDROID_KEYSTORE_FILE")
     signingConfigs {
         if (ksFile) {
             release {
                 storeFile file(ksFile)
+                storeType "pkcs12"
                 storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
-                keyAlias System.getenv("ANDROID_KEY_ALIAS")
-                keyPassword System.getenv("ANDROID_KEY_PASSWORD")
+                keyAlias System.getenv("ANDROID_KEY_ALIAS") ?: "kalkulator"
+                keyPassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
             }
         }
     }
