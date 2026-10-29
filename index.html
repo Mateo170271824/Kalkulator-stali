@@ -1166,6 +1166,14 @@ const matLabel = (c, n, sheet) => (/^(UPN|HE[ABM]|IPE)/.test(n) ? n : c + ' ' + 
 const safeName = s => String(s).replace(/[\\/:*?"<>|]+/g, '-').replace(/\s+/g, '_').slice(0, 80);
 
 async function saveFile(filename, blob) {
+  if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
+    try {
+      if (!window.NativeApp) await loadScript('vendor/native.js');
+      const r = await window.NativeApp.saveFile(filename, blob);
+      if (r !== 'cancelled') toast('Zapisano ' + filename);
+    } catch (e) { toast('Nie udało się zapisać: ' + ((e && e.message) || 'błąd')); }
+    return;
+  }
   if (window.claude && typeof window.claude.use === 'function') {
     let d = null; try { d = await window.claude.use('downloads'); } catch (e) { d = null; }
     if (!d) { toast('Zapisywanie plików jest niedostępne w tym widoku'); return; }
@@ -1403,7 +1411,7 @@ async function xlsxBom() {
 </script>
 
 <script>
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && !window.Capacitor) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
 </script>

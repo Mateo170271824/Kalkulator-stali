@@ -1,0 +1,11 @@
+{
+  "appId": "pl.kalkulatorstali.app",
+  "appName": "Kalkulator stali",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  },
+  "ios": {
+    "contentInset": "never"
+  }
+}

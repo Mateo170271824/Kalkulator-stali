@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Kalkulator stali</string>
+    <string name="title_activity_main">Kalkulator stali</string>
+    <string name="package_name">pl.kalkulatorstali.app</string>
+    <string name="custom_url_scheme">pl.kalkulatorstali.app</string>
+</resources>

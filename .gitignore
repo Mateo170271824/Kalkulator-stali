@@ -1,0 +1,6 @@
+node_modules/
+www/
+*.zip
+.DS_Store
+*.keystore
+*.jks
