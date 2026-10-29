@@ -1,0 +1,19 @@
+{
+  "name": "Kalkulator stali",
+  "short_name": "Stal",
+  "description": "Wycena materiału: wagi profili, blach i prętów, rozkroje z PDF, listy materiałowe, eksport PDF i Excel.",
+  "lang": "pl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#EEF1F4",
+  "theme_color": "#23577A",
+  "categories": ["business", "productivity", "utilities"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
