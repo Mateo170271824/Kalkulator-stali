@@ -31,7 +31,7 @@ Na pull requestach APK i IPA są tylko budowane (do sprawdzenia w zakładce Acti
 
 ### Podpis Androida
 
-APK i AAB są podpisywane stałym kluczem z sekretów repozytorium (Settings → Secrets and variables → Actions):
+APK jest podpisywane stałym kluczem z sekretów repozytorium (Settings → Secrets and variables → Actions):
 `ANDROID_KEYSTORE_BASE64` (plik klucza w base64) i `ANDROID_KEYSTORE_PASSWORD`. Dzięki temu nowe wersje
 instalują się na starych bez utraty danych. Bez tych sekretów wersja z `main` nie zostanie opublikowana.
 Kopię klucza i hasła trzymaj bezpiecznie poza GitHubem – sekretu nie da się później odczytać.
