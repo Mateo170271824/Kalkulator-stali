@@ -25,9 +25,11 @@ Wszystko działa bez internetu, dane zostają na urządzeniu.
 Każdy push do `main`:
 - `pages.yml` – publikuje stronę na GitHub Pages
 - `android.yml` – buduje APK i wystawia w Releases (tag `android`)
-- `ios.yml` – buduje niepodpisane IPA i wystawia w Releases (tag `ios`)
 
-Na pull requestach APK i IPA są tylko budowane (do sprawdzenia w zakładce Actions → Artifacts).
+
+Na pull requestach APK jest tylko budowane (do sprawdzenia w zakładce Actions → Artifacts).
+
+`ios.yml` (niepodpisane IPA) uruchamia się tylko ręcznie: Actions → Aplikacja iOS → Run workflow. Na iPhonie najprościej używać PWA z Safari.
 
 ### Podpis Androida
 
