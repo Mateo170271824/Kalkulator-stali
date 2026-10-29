@@ -1,0 +1,75 @@
+name: Aplikacja Android (APK)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    env:
+      HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+      PUBLISH: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap sync android
+
+      # Publikować wolno tylko wersję ze stałym kluczem – inaczej aktualizacja wymagałaby
+      # odinstalowania aplikacji, a to kasuje zapisane dane.
+      - name: Sprawdzenie klucza podpisu
+        if: env.PUBLISH == 'true' && env.HAS_KEYSTORE != 'true'
+        run: |
+          echo "::error::Brak sekretów ANDROID_KEYSTORE_BASE64 i ANDROID_KEYSTORE_PASSWORD (Settings → Secrets and variables → Actions)."
+          exit 1
+
+      - name: Klucz podpisu z sekretów
+        if: env.HAS_KEYSTORE == 'true'
+        env:
+          KS: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          echo "$KS" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/release.keystore"
+          echo "ANDROID_KEYSTORE_FILE=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+
+      - name: Budowanie APK
+        working-directory: android
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/Kalkulator-stali.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Kalkulator-stali-apk
+          path: Kalkulator-stali.apk
+
+      - name: Publikacja do pobrania (Releases)
+        if: env.PUBLISH == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete android --yes --cleanup-tag || true
+          gh release create android Kalkulator-stali.apk \
+            --title "Kalkulator stali – Android (wersja ${{ github.run_number }})" \
+            --notes "Na telefonie pobierz Kalkulator-stali.apk i otwórz plik. Nowe wersje instalują się na starych bez utraty danych." \
+            --target "${{ github.sha }}" --latest
