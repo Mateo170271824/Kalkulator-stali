@@ -246,7 +246,19 @@ table.nt td.bars{text-align:left;font-family:var(--mono);font-size:12.5px;white-
   <details class="info">
     <summary>Skąd są wagi i jak liczę</summary>
     <ul>
-      <li>Baza: 2648 pozycji z Twojego pliku „Kalkulator stali.xlsx”, po ujednoliceniu nazw i poprawkach (lista w arkuszu „Poprawki w bazie” w Excelu).</li>
+      <li>Baza: 2648 pozycji z Twojego pliku „Kalkulator stali.xlsx”, po ujednoliceniu nazw. W październiku 2026 cała baza została porównana z normami wyrobów; 7 pozycji poprawiono.</li>
+      <li>Wagi są teoretyczne (nominalne), zgodne z normami wyrobów:
+        <ul>
+          <li>Profile zamknięte i rury okrągłe – PN-EN 10219-2 (masa liczona ze wzorów normy).</li>
+          <li>Dwuteowniki IPE, HEA, HEB, HEM i ceowniki UPN – masy wg PN-EN 10365; tolerancje PN-EN 10034 (dwuteowniki) i PN-EN 10279 (ceowniki).</li>
+          <li>Kątowniki walcowane równo- i nierównoramienne – PN-EN 10056-1.</li>
+          <li>Kątowniki i ceowniki gięte, profile bramowe – PN-EN 10162 (masa z wymiarów, promień gięcia ok. grubości ścianki).</li>
+          <li>Płaskowniki – PN-EN 10058; pręty okrągłe – PN-EN 10060; kwadratowe – PN-EN 10059; sześciokątne – PN-EN 10278 (masa = pole przekroju × gęstość).</li>
+          <li>Pręty żebrowane – PN-H-93220 (masa nominalna).</li>
+          <li>Blachy – grubość × 7,85 kg/m² na każdy mm (wymiary wg PN-EN 10029 i PN-EN 10051); blachy ocynkowane z masą powłoki cynku (PN-EN 10346).</li>
+          <li>Profile aluminiowe – wg katalogu producenta.</li>
+        </ul>
+        Rzeczywista waga dostarczonego materiału może się różnić w granicach tolerancji podanych w tych normach.</li>
       <li>Wagi w bazie są dla stali 7,85 kg/dm³. Inny gatunek przelicza wagę przez gęstość: nierdzewka 304 7,90, 316L 8,00, 430 7,70, aluminium 2,70.</li>
       <li>Cena za kg ↔ za mb: cena/mb = cena/kg × waga kg/mb. Dla blachy zamiast mb liczę m².</li>
       <li>Cena 1 szt = waga 1 szt × cena/kg. Wartość pozycji = cena 1 szt × ilość.</li>
