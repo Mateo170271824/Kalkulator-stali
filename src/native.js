@@ -1,4 +1,4 @@
-// Zapis plików w aplikacji Android/iOS: plik trafia do pamięci podręcznej,
+// Zapis plików w aplikacji Android: plik trafia do pamięci podręcznej,
 // a potem otwiera się systemowe okno „Udostępnij” (zapis do Pobranych/Plików, mail, WhatsApp…).
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
