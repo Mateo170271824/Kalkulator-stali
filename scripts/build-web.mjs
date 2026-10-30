@@ -1,4 +1,4 @@
-// Składa stronę do katalogu www/ – z niego korzysta GitHub Pages oraz aplikacje Android/iOS.
+// Składa stronę do katalogu www/ – z niego korzysta GitHub Pages oraz aplikacja Android.
 import { cpSync, rmSync, mkdirSync } from 'node:fs';
 import { build } from 'esbuild';
 
