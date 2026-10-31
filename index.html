@@ -19,6 +19,36 @@
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 </head>
 <body>
+<!-- Ekran startowy: rysujący się dwuteownik, potem płynne zniknięcie (sam CSS, działa nawet bez JS) -->
+<style>
+#splash{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;background:#EEF1F4;animation:spl-out .45s ease 1.55s forwards}
+#splash .tile{width:132px;height:132px;border-radius:30px;background:#23577A;display:grid;place-items:center;box-shadow:0 14px 34px rgba(21,32,43,.22);animation:spl-pop .45s cubic-bezier(.2,.9,.3,1.25) both}
+#splash svg{width:118px;height:118px;overflow:visible}
+#splash .p{fill:#fff;transform-box:fill-box}
+#splash .f1{transform-origin:center;animation:spl-x .32s ease-out .2s both}
+#splash .w{transform-origin:top;animation:spl-y .3s ease-out .45s both}
+#splash .f2{transform-origin:center;animation:spl-x .32s ease-out .68s both}
+#splash .bar{fill:#D9981E;transform-box:fill-box;transform-origin:left;animation:spl-x .35s ease-out .95s both}
+#splash .t{font:700 22px "IBM Plex Sans Condensed","Arial Narrow",Arial,sans-serif;letter-spacing:.02em;color:#15202B;text-align:center;animation:spl-up .4s ease-out 1s both}
+#splash .t small{display:block;font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#56687A;margin-bottom:2px}
+@keyframes spl-pop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes spl-x{from{transform:scaleX(0)}to{transform:none}}
+@keyframes spl-y{from{transform:scaleY(0)}to{transform:none}}
+@keyframes spl-up{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+@keyframes spl-out{to{opacity:0;visibility:hidden}}
+@media (prefers-color-scheme:dark){#splash{background:#12181E}#splash .t{color:#E6ECF1}#splash .t small{color:#98A8B7}}
+@media (prefers-reduced-motion:reduce){#splash,#splash *{animation:none!important}#splash{animation:spl-out .3s ease .5s forwards!important}}
+</style>
+<div id="splash" aria-hidden="true">
+  <div class="tile"><svg viewBox="0 0 512 512">
+    <rect class="p f1" x="136" y="120" width="240" height="52"/>
+    <rect class="p w" x="228" y="172" width="56" height="168"/>
+    <rect class="p f2" x="136" y="340" width="240" height="52"/>
+    <rect class="bar" x="136" y="410" width="240" height="14" rx="7"/>
+  </svg></div>
+  <div class="t"><small>Wycena materiału</small>Kalkulator stali</div>
+</div>
+<script>setTimeout(function(){var s=document.getElementById('splash');if(s)s.remove()},2200)</script>
 <style>
 :root{
   --bg:#EEF1F4; --surface:#FFFFFF; --surface-2:#F6F8FA; --ink:#15202B; --muted:#56687A; --line:#D3DAE1;
