@@ -1,5 +1,5 @@
 // Service worker: aplikacja działa offline. Po każdej zmianie plików podbij wersję.
-const VERSION = 'stal-v5';
+const VERSION = 'stal-v6';
 const ASSETS = [
   './',
   './index.html',
