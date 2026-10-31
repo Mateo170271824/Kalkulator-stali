@@ -115,6 +115,7 @@ input:focus,select:focus,button:focus-visible{outline:2px solid var(--focus);out
 .btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
 .btn:hover{filter:brightness(.97)}
 .btn:disabled{opacity:.6;cursor:progress}
+body.nosum .wrap{padding-bottom:40px}
 .sum{position:fixed;left:0;right:0;bottom:0;background:var(--ink);color:var(--bg);padding-block:10px calc(10px + env(safe-area-inset-bottom,0px));padding-inline:16px;z-index:30}
 .sum .in{max-width:1180px;margin:0 auto;display:flex;flex-wrap:wrap;gap:6px 30px;align-items:baseline}
 .sum .r b{color:inherit;opacity:.65}.sum .r i{font-size:17px;font-weight:600}
@@ -297,7 +298,7 @@ table.nt td.bars{text-align:left;font-family:var(--mono);font-size:12.5px;white-
   </details>
 </div>
 
-<div class="sum" aria-live="polite">
+<div class="sum" aria-live="polite" hidden>
   <div class="in">
     <div class="r"><b>Pozycji</b><i id="s-n">0</i></div>
     <div class="r"><b>Łączna waga</b><i id="s-kg">0,00 kg</i></div>
@@ -444,6 +445,10 @@ function totals(){
   document.getElementById('s-avg').textContent=kg>0&&net>0?fmt(net/kg)+' zł/kg':'–';
   document.getElementById('s-net').textContent=fmt(net)+' zł';
   document.getElementById('s-gross').textContent=fmt(net*(1+vat/100))+' zł';
+  // pasek podsumowania tylko, gdy przynajmniej jedna pozycja ma cenę
+  const show=net>0;
+  document.querySelector('.sum').hidden=!show;
+  document.body.classList.toggle('nosum',!show);
 }
 function autocomplete(el,p){
   const inp=el.querySelector('[data-k="name"]'), ul=el.querySelector('.sugg'); let items=[],sel=-1;
