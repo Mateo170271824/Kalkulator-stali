@@ -290,7 +290,7 @@ table.nt td.bars{text-align:left;font-family:var(--mono);font-size:12.5px;white-
         </ul>
         Rzeczywista waga dostarczonego materiału może się różnić w granicach tolerancji podanych w tych normach.</li>
       <li>Wagi w bazie są dla stali 7,85 kg/dm³. Inny gatunek przelicza wagę przez gęstość: nierdzewka 304 7,90, 316L 8,00, 430 7,70, aluminium 2,70.</li>
-      <li>Cena za kg ↔ za mb: cena/mb = cena/kg × waga kg/mb. Dla blachy zamiast mb liczę m².</li>
+      <li>Cena za kg ↔ za mb: cena/mb = cena/kg × waga kg/mb. Dla blachy zamiast mb liczę m². Dla blachy możesz też podać cenę za arkusz (zł/ark): cena/kg = cena arkusza ÷ waga arkusza.</li>
       <li>Cena 1 szt = waga 1 szt × cena/kg. Wartość pozycji = cena 1 szt × ilość.</li>
       <li>Lista materiałowa: opisy są dopasowywane do bazy (RHS/SHS → profil zamknięty, CHS/Ø → rura, IPE/HEA/HEB, UPN/C, L, FL, pręty, BL/PL → blacha). Wymiarów spoza bazy nie zgaduję: profile zamknięte, rury, płaskowniki, pręty i blachy wyliczam z wymiarów i oznaczam jako „wyliczony”. Sztangi liczę metodą „największe najpierw” z uwzględnieniem rzazu.</li>
       <li>Rozkroje z PDF: blacha = długość × szerokość arkusza × grubość × 7,85 (× gęstość gatunku). Zużyty pas = „Użycie w X” × szerokość arkusza. Detale = suma „Il. rozł. × Waga rzecz.”. Pliki są czytane tylko w Twojej przeglądarce.</li>
@@ -322,7 +322,7 @@ table.nt td.bars{text-align:left;font-family:var(--mono);font-size:12.5px;white-
         <label class="f"><span class="lenlbl">Długość [m]</span><input data-k="len" class="num" inputmode="decimal"></label>
         <label class="f wlab" hidden>Szerokość [m]<input data-k="wid" class="num" inputmode="decimal"></label>
         <label class="f">Ilość [szt]<input data-k="qty" class="num" inputmode="numeric"></label>
-        <label class="f wide">Cena netto<span class="pricebox"><input data-k="price" class="num" inputmode="decimal" aria-label="Cena"><span class="unit"><button type="button" data-u="kg">zł/kg</button><button type="button" data-u="mb">zł/mb</button></span></span></label>
+        <label class="f wide">Cena netto<span class="pricebox"><input data-k="price" class="num" inputmode="decimal" aria-label="Cena"><span class="unit"><button type="button" data-u="kg">zł/kg</button><button type="button" data-u="mb">zł/mb</button><button type="button" data-u="ark" hidden>zł/ark</button></span></span></label>
       </div>
       <div class="results">
         <div class="r"><b class="u-w">kg/mb</b><i class="o-w">–</i></div>
@@ -370,7 +370,12 @@ function calc(p){
   out.per = sheet ? (len>0&&wid>0?len*wid:null) : (len>0?len:null);
   out.ws = out.per!=null? out.w*out.per : null;
   out.wp = out.ws!=null&&qty>0 ? out.ws*qty : null;
-  if(price>0){ out.pkg = p.unit==='kg'?price:price/out.w; out.pmb = p.unit==='kg'?price*out.w:price; }
+  // cena za arkusz (tylko blachy): zł/kg = cena arkusza / waga arkusza
+  const unit = p.unit==='ark' && !sheet ? 'kg' : p.unit;
+  if(price>0){
+    if(unit==='ark'){ if(out.ws>0){ out.pkg = price/out.ws; out.pmb = out.pkg*out.w; } }
+    else { out.pkg = unit==='kg'?price:price/out.w; out.pmb = unit==='kg'?price*out.w:price; }
+  }
   out.ps = out.ws!=null&&out.pkg!=null? out.ws*out.pkg:null;
   out.pp = out.ps!=null&&qty>0? out.ps*qty:null;
   if(!(len>0)) out.msg=['warn','Podaj długość'];
@@ -422,6 +427,8 @@ function update(el,p){
   el.querySelector('.wlab').hidden=!sheet; el.querySelector('.inputs').classList.toggle('sheet',sheet);
   el.querySelector('.lenlbl').textContent=sheet?'Długość arkusza [m]':'Długość [m]';
   el.querySelector('[data-u="mb"]').textContent=sheet?'zł/m²':'zł/mb';
+  el.querySelector('[data-u="ark"]').hidden=!sheet;
+  if(!sheet && p.unit==='ark' && r.L.state==='ok'){ p.unit='kg'; save(); }
   el.querySelectorAll('.unit button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.u===p.unit));
   set('.u-w',sheet?'kg/m²':'kg/mb'); set('.u-pm',sheet?'zł/m²':'zł/mb');
   set('.o-w',r.w!=null?fmt(r.w,r.w<1?3:2):'–');
