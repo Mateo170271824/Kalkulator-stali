@@ -8,7 +8,6 @@ const ASSETS = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
-  './icons/logo-skavska.png',
   './icons/apple-touch-icon.png',
   './fonts/fonts.css',
   "./fonts/ibm-plex-mono-latin-400-normal.woff2",
