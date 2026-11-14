@@ -1,5 +1,5 @@
 // Service worker: aplikacja działa offline. Po każdej zmianie plików podbij wersję.
-const VERSION = 'stal-v9';
+const VERSION = 'stal-v10';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const ASSETS = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
+  './icons/logo-skavska.png',
   './icons/apple-touch-icon.png',
   './fonts/fonts.css',
   "./fonts/ibm-plex-mono-latin-400-normal.woff2",
